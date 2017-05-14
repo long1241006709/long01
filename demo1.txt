@@ -1,0 +1,12 @@
+process.nextTick(function A() {
+    console.log(1);
+    process.nextTick(function B(){console.log(2);});
+});
+setTimeout(function timeout() {
+    console.log(3);
+}, 0);
+// 1
+// 2
+// 3
+解答：
+因为process.nextTick 是在执行栈的尾部触发，所以当同步函数执行完毕以后，process.nextTick函数触发，当process.nextTick函数有多个的时候，会按照从上而下的顺序执行，然后异步函数队列进入执行栈，所以输出//123
